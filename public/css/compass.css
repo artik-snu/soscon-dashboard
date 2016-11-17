@@ -1,0 +1,47 @@
+.canvas-container {
+    border: 2px solid #2f4154;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+.compass {
+	position: relative;
+	width: 150px;
+	height: 150px;
+	margin: 20px auto;
+    margin-bottom: 10px;
+	//background: #222;
+	padding: 20px;
+	border-radius: 40px;
+	//border: 5px solid #444;
+	overflow: hidden;
+}
+
+.compass .disc {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 200;
+	background: url('http://dev.rvltn.eu/compass/compass.svg');
+	width: 150px;
+	height: 150px;
+	background-size: 100%;
+}
+
+.compass .arrow {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	background: url('http://dev.rvltn.eu/compass/arrow.svg');
+	width: 150px;
+	height: 150px;
+	background-size: 100%;
+	-moz-transition-duration: 0.1s; /* Safari */
+	-webkit-transition-duration: 0.1s; /* Safari */
+    transition-duration: 0.1s;
+}
+
+.gauge {
+display: inline-block;
+}

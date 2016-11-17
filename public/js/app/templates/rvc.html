@@ -1,0 +1,228 @@
+<div class="row">
+	<div class="col-md-5">
+		<h4>Map</h4>
+		<!--
+		<canvas id="demo" width="512" height="512"></canvas>
+		-->
+		<canvas id="map_fabric" width="455" height="455"></canvas>
+	</div>
+	<div class="col-md-4">
+		<h4>Status</h4>
+		<div class="alert alert-danger" role="alert" ng-if="status.lift.left == 1 || status.lift.right == 1 || status.cliff.left == 1 || status.cliff.right == 1 || status.cliff.center == 1">
+			<strong>Warning!</strong> Check your PowerBot(
+			<span ng-if="status.lift.left == 1">Left: LIFTED</span>
+			<span ng-if="status.lift.right == 1">Right: LIFTED</span>
+			<span ng-if="status.cliff.left == 1">Left: CLIFF</span>
+			<span ng-if="status.cliff.center == 1">Center: CLIFF</span>
+			<span ng-if="status.cliff.right == 1">Right: CLIFF</span>
+			)
+		</div>
+		<strong>Battery</strong>
+		<div>
+			<div class="progress">
+				<div class="progress-bar" ng-style="{'width': status.battery + '%'}" ng-class="{'progress-bar-warning': (status.battery < 50), 'progress-bar-danger': status.battery < 30}"></div>
+			</div>
+		</div>
+
+		<div style="text-align: center;">
+			<div google-chart chart="chart" style="{{chart.cssStyle}}" class="gauge"></div>
+
+			<div class="compass gauge">
+				<div id="arrowImg" class="arrow"></div>
+				<div class="disc" id="compassDiscImg"></div>
+			</div>
+		</div>
+
+		<form class="form-horizontal">
+			<div class="form-group">
+				<select class="form-control select select-primary" data-toggle="select" ng-model="message.lang">
+					<option value="">Select language</option>
+					<option value="ko_KR" selected>Korean</option>
+					<option value="en_US">English</option>
+					<option value="fr_FR">French</option>
+					<option value="de_DE">German</option>
+					<option value="ja_JP">Japanese</option>
+					<option value="zh_CN">Chinese</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<textarea class="form-control" ng-model="message.text"></textarea>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-block btn-primary" ng-click="sendMessage()">Send Message</button>
+			</div>
+		</form>
+
+
+		<!--
+		<strong>Wheel</strong>
+		<p>Left<span ng-if="status.lift.left == 1">(lifted)</span></p>
+		<div class="progress">
+			<div class="progress-bar" ng-style="{'width': status.wheel.left / 3.5 + '%'}"></div>
+		</div>
+		<p>Right<span ng-if="status.lift.right == 1">(lifted)</span></p>
+		<div class="progress">
+			<div class="progress-bar" ng-style="{'width': status.wheel.right / 3.5 + '%'}"></div>
+		</div>
+
+		<strong>Linear & Angular</strong>
+		<p>Linear</p>
+		<div class="progress">
+			<div class="progress-bar" ng-style="{'width': status.lin_ang_vel.lin / 3.5 + '%'}"></div>
+		</div>
+		<p>Angular</p>
+		<div class="progress">
+			<div class="progress-bar" ng-style="{'width': status.lin_ang_vel.ang * 32 + '%'}"></div>
+		</div>
+		-->
+	</div>
+	<div class="col-md-3">
+		<h4>Controller</h4>
+		<div class="btn-toolbar">
+			<!--
+			<div class="btn-group btn-group-justified">
+				<a class="btn btn-primary" ng-class="{'active': cmd.left}" ng-click="execute('left')">Left</a>
+				<a class="btn btn-primary" ng-class="{'active': cmd.forward}" ng-click="execute('forward')">Forward</a>
+				<a class="btn btn-primary" ng-class="{'active': cmd.right}" ng-click="execute('right')">Right</a>
+			</div>
+			-->
+
+			<div class="btn-group btn-group-justified">
+				<a class="btn btn-primary" ng-class="{'active': cmd.beep}" ng-click="execute('beep')">Beep</a>
+				<a class="btn btn-primary" ng-class="{'active': cmd.mute}" ng-click="execute('mute')">Mute</a>
+			</div>
+
+			<div class="btn-group btn-group-justified">
+				<a class="btn btn-primary" ng-class="{'active': cmd.auto}" ng-click="execute('auto')">Auto</a>
+				<a class="btn btn-primary" ng-class="{'active': cmd.stop}" ng-click="execute('stop')">Stop</a>
+				<a class="btn btn-primary" ng-class="{'active': cmd.homing}" ng-click="execute('homing')">Homing</a>
+			</div>
+
+			<div class="btn-group btn-group-justified">
+				<a class="btn btn-primary" ng-class="{'active': cmd.silent}" ng-click="execute('silent')">Silent</a>
+				<a class="btn btn-primary" ng-class="{'active': cmd.normal}" ng-click="execute('normal')">Normal</a>
+				<a class="btn btn-primary" ng-class="{'active': cmd.turbo}" ng-click="execute('turbo')">Turbo</a>
+			</div>
+
+			<div class="btn-group btn-group-justified">
+				<a class="btn btn-primary" data-toggle="dropdown" ng-class="{'active': cmd.reservation}" ng-click="saveMap()"><span class="fui-location"> Save Map</span></a>
+			</div>
+
+			<div class="btn-group btn-group-justified">
+				<a class="btn btn-primary" data-toggle="dropdown" ng-class="{'active': cmd.reservation}" ng-click="execute('reservation')"><span class="fui-list"> Reservation</span></a>
+			</div>
+		</div>
+		<!--
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<a class="btn btn-primary" ng-class="{'active': cmd.clean}" ng-click="execute('clean')"><span class="fui-play"></span></a>
+				<a class="btn btn-primary" ng-class="{'active': cmd.video}" ng-click="execute('video')"><span class="fui-video"></span></a>
+				<a class="btn btn-primary" ng-class="{'active': cmd.sound}" ng-click="execute('sound')"><span class="fui-volume"></span></a>
+				<a class="btn btn-primary" ng-click="execute('schedule')"><span class="fui-list-numbered"></span></a>
+			</div>
+		</div>
+		-->
+
+		<ng-audio-recorder id='audioInput' audio-model='recordedInput' on-record-complete="saveAudio()">
+			<div ng-if="recorder.isAvailable">
+				<div class="btn-toolbar">
+					<div class="btn-group btn-group-justified">
+						<a ng-click="recorder.startRecord()" type="button" ng-if="!recorder.status.isRecording" class="btn btn-primary">
+							<span class="fui-mic"> Start Record</span>
+						</a>
+						<a ng-click="recorder.stopRecord()" type="button" ng-if="!(recorder.status.isRecording === false)" class="btn btn-primary">
+							<span class="fui-pause"> Stop Record</span>
+						</a>
+						<a ng-click="recorder.playbackRecording()" type="button"
+							ng-if="!(recorder.status.isRecording || !recorder.audioModel)" class="btn btn-primary">
+							<span class="fui-play"> Play</span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div ng-if="!recorder.isAvailable">
+				Message for users when recording is not possible.
+			</div>
+			<!-- End controls-->
+		</ng-audio-recorder>
+
+		<div class="btn-toolbar">
+			<div class="btn-group btn-group-justified">
+				<a class="btn btn-primary" ng-click="startStream()" ng-if="!showVideo"><span class="fui-video"> Show Video</span></a>
+				<a class="btn btn-primary" ng-click="stopStream()" ng-if="showVideo"><span class="fui-pause"> Stop Video</span></a>
+
+			</div>
+		</div>
+
+		<div ng-show="showVideo">
+			<h4>Camera</h4>
+			<video class="video-js" data-setup="{}" id="stream">
+			</video>
+		</div>
+
+		<!--
+		<video class="video-js" preload="auto" poster="img/inner.jpg" data-setup="{}" id="stream2">
+			<source src="http://iurevych.github.com/Flat-UI-videos/big_buck_bunny.mp4" type="video/mp4">
+			<source src="http://iurevych.github.com/Flat-UI-videos/big_buck_bunny.webm" type="video/webm">
+		</video>
+		-->
+
+	</div>
+</div>
+<div class="row">
+	<h4>Temporary</h4>
+	<div class="btn-toolbar">
+		<div class="btn-group btn-group-justified">
+			<a class="btn btn-primary" ng-click="enableVideo()" ng-if="!enabled"><span class="fui-checkbox-unchecked"> Enable Camera</span></a>
+			<a class="btn btn-primary" ng-click="detect()" ng-if="enabled"><span class="fui-checkbox-unchecked"> Detect Emotion</span></a>
+		</div>
+	</div>
+	<div id="content">
+		<div id="container">
+			<video id="videoel" width="400" height="300" preload="auto" loop>
+			</video>
+			<canvas id="overlay" width="400" height="300"></canvas>
+			<canvas id="sketch" width="400" height="300"></canvas>
+			<div id="emotion_container">
+				<div id="emotion_icons">
+					<img class="emotion_icon" id="icon1" src="/img/media/icon_angry.png">
+					<img class="emotion_icon" id="icon2" src="/img/media/icon_sad.png">
+					<img class="emotion_icon" id="icon3" src="/img/media/icon_surprised.png">
+					<img class="emotion_icon" id="icon4" src="/img/media/icon_happy.png">
+				</div>
+				<div id='emotion_chart'></div>
+			</div>
+			<div id="controls">
+				<input class="btn" type="button" value="wait, loading video" disabled="disabled" onclick="startVideo()" id="startbutton"></input>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h4>
+            All Status
+            <span style="font-size: 14px; font-weight: normal">Last updated at {{ts}}</span>
+        </h4>
+        <pre>{{content | json}}</pre>
+    </div>
+    <div class="col-md-6">
+        <h4>Logs</h4>
+        <div style="max-height: 1032px; overflow-x: scroll;">
+            <blockquote ng-repeat="log in logs">
+                <p>{{log.content}}</p>
+                <small>Powerbot, {{log.time | t2kr}}</small>
+            </blockquote>
+            <div style="text-align: center;">
+                <ul class="pagination" style="margin: 0 auto;">
+                    <li class="previous"><a href="#fakelink" class="fui-arrow-left"></a></li>
+                    <li class="active"><a href="#fakelink">1</a></li>
+                    <li><a href="#fakelink">2</a></li>
+                    <li><a href="#fakelink">8</a></li>
+                    <li class="next"><a href="#fakelink" class="fui-arrow-right"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

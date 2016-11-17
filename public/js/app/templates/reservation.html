@@ -1,0 +1,77 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Reservation</h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="input-time" class="col-sm-4 control-label"><strong>Time</strong></label>
+            <div class="col-sm-8">
+                <input type="time" id="input-time" class="form-control" placeholder="Text input" ng-model="form.time">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-description" class="col-sm-4 control-label"><strong>Description</strong></label>
+            <div class="col-sm-8">
+                <textarea class="form-control" id="input-desription" placeholder="Description" ng-model="form.description"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="input-description" class="col-sm-4 control-label"><strong>Schedule Type</strong></label>
+            <div class="col-sm-8">
+                <div class="radio">
+                    <label style="line-height: 1.2em;">
+                        <input type="radio" name="input-schedule-type" value="daily" ng-model="form.type" checked>
+                        Daily
+                    </label>
+                </div>
+                <div class="radio">
+                    <label style="line-height: 1.2em;">
+                        <input type="radio" name="input-schedule-type" value="once" ng-model="form.type" >
+                        Once
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8">
+                <button class="btn btn-primary btn-block" ng-click="create()" ng-disabled="disabled.form">Create a Reservation</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-hover" ng-if="has_reservations">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Time</th>
+                <th>Description</th>
+                <!--
+                <th>Status</th>
+                -->
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="(k, v) in reservations">
+            <tr>
+                <th scope="row">{{$index + 1}}</th>
+                <td>{{v.type | capitalize}}</td>
+                <td>{{v.time}}</td>
+                <td>{{v.description}}</td>
+                <!--
+                <td>{{v.status | status2str}}</td>
+                -->
+                <td>
+                    <a ng-if="v.status == 0" class="btn btn-danger btn-xs" ng-click="cancel(k)"><span class="fui-cross"></span></a>
+                    <!--
+                    <a ng-if="v.status == 0" class="btn btn-primary btn-xs" ng-click="run(k)"><span class="fui-play"></span></a>
+                    -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-inverse" type="button" ng-click="close()">Close</button>
+</div>

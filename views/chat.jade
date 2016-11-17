@@ -1,0 +1,19 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Socket.IO Chat Example
+    link(rel='stylesheet', href='/css/sample/style.css')
+  body
+    ul.pages
+      li.chat.page
+        .chatArea
+          ul.messages
+        input.inputMessage(placeholder='Type here...')
+      li.login.page
+        .form
+          h3.title What's your nickname?
+          input.usernameInput(type='text', maxlength='14')
+    script(src='https://code.jquery.com/jquery-1.10.2.min.js')
+    script(src='https://cdn.socket.io/socket.io-1.3.7.js')
+    script(src='/js/sample/main.js')
