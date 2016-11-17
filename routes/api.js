@@ -128,6 +128,26 @@ router.delete('/reservation/:id', function(req, res, next) {
 
 var multer = require('multer');
 var Q = require("q");
+var imgPath = "upload/img";
+var imgUpload = function (req, res) {
+	var deferred = Q.defer();
+
+	var storage = multer.diskStorage({
+		destination: function (req, file, cb) {
+			cb(null, imgPath)
+		},
+		filename: function (req, file, cb) {
+			cb(null, Date.now() + "-" + file.originalname);
+		}
+	})
+	var upload = multer({ storage: storage }).single('file');
+
+	upload(req, res, function (err) {
+		if (err) deferred.reject();
+		else deferred.resolve(req.file);
+	});
+	return deferred.promise;
+};
 var uploadPath = "upload/wav";
 var upload = function (req, res) {
 	var deferred = Q.defer();
@@ -185,10 +205,35 @@ function tts(msg) {
 }
 
 router.post('/detect', function(req, res, next) {
-	var img = req.body.img;
-	imgRef.set({base64: img});
+	//var url = "/upload/img/1479416085768-alarm.jpg";
+	//imgRef.push().set({time: moment().format(), url});
+	//res.json({});
+	//return;
+    imgUpload(req, res).then(function (file) {
+		var url = "/upload/img/" + file.filename;
+		imgRef.push().set({time: moment().format(), url});
+        res.json({});
+    }, function (err) {
+		res.send(500, err);
+	});
     res.json({});
 });
+
+router.get('/alarm', function(req, res, next) {
+	var data = {alarm_play: ""};
+    var bot = powerbot.get();
+    powerbot.write(bot, data);
+
+    res.json({});
+});
+
+router.get('/logs', function(req, res, next) {
+    ttsRef.push().set({
+        content: req.param('text'),
+        time: moment().format()
+    })
+    res.json({});
+})
 
 router.get('/cmd', function(req, res, next) {
     var cmd = req.param('cmd');

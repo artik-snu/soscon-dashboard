@@ -7,6 +7,7 @@ angular.module('myApp', [
     'myApp.about',
     'myApp.joystick',
     'myApp.version',
+    'myApp.login',
     'firebase',
     'angularAudioRecorder',
     'ngFileUpload',
@@ -17,5 +18,5 @@ angular.module('myApp', [
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix('!');
 
-    $routeProvider.otherwise({redirectTo: '/rvc'});
+    $routeProvider.otherwise({redirectTo: '/login'});
 }]);

@@ -8,6 +8,16 @@
 	</div>
 	<div class="col-md-4">
 		<h4>Status</h4>
+        <div class="alert alert-warning alert-dismissible" role="alert" ng-if="doptions.notify == false && doptions.detect && imgUrl.length > 0">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="clearWarning()"><span aria-hidden="true">&times;</span></button>
+            <strong>Warning!</strong> Check your Powerbot
+            <img src="{{imgUrl}}" class="img-rounded img-responsive" style="width: 100%;" />
+        </div>
+        <div class="alert alert-danger alert-dismissible" role="alert" ng-if="doptions.notify == true && imgUrl.length > 0">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="clearWarning()"><span aria-hidden="true">&times;</span></button>
+            <strong>Danger!</strong> Check your Powerbot
+            <img src="{{imgUrl}}" class="img-rounded img-responsive" style="width: 100%;" />
+        </div>
 		<div class="alert alert-danger" role="alert" ng-if="status.lift.left == 1 || status.lift.right == 1 || status.cliff.left == 1 || status.cliff.right == 1 || status.cliff.center == 1">
 			<strong>Warning!</strong> Check your PowerBot(
 			<span ng-if="status.lift.left == 1">Left: LIFTED</span>
@@ -155,6 +165,22 @@
 			</div>
 		</div>
 
+        <div>
+            <h3 class="demo-panel-title">Detection</h3>
+            <div class="share mrl" style="margin: 0; margin-left: -5px;">
+                <ul>
+                    <li>
+                        <label class="share-label" for="share-toggle2">Notify</label>
+                        <input type="checkbox" data-toggle="switch" ng-model="doptions.notify" style="margin-top: 10px;float: right;"/>
+                    </li>
+                    <li>
+                        <label class="share-label" for="share-toggle4">Detection</label>
+                        <input type="checkbox" data-toggle="switch" ng-model="doptions.detect" style="margin-top: 10px;float: right;" />
+                    </li>
+                </ul>
+            </div> <!-- /share -->
+        </div>
+
 		<div ng-show="showVideo">
 			<h4>Camera</h4>
 			<video class="video-js" data-setup="{}" id="stream">
@@ -170,6 +196,7 @@
 
 	</div>
 </div>
+<!--
 <div class="row">
 	<h4>Temporary</h4>
 	<div class="btn-toolbar">
@@ -199,6 +226,7 @@
 		</div>
 	</div>
 </div>
+-->
 <div class="row">
     <div class="col-md-6">
         <h4>

@@ -1,0 +1,36 @@
+<style>
+.navbar, footer {
+	display: none;
+}
+.login {
+	margin: 0 auto;
+	max-width: 940px;
+}
+</style>
+<div class="login">
+	<div class="login-screen">
+		<div class="login-icon">
+			<img src="/img/powerbot.png" alt="Welcome to Mail App">
+			<h4>Welcome to <small>SOSCON</small></h4>
+		</div>
+
+		<div class="login-form">
+			<div class="form-group">
+				<input type="text" class="form-control login-field" value="" placeholder="Enter your name" id="login-name" ng-model="form.username">
+				<label class="login-field-icon fui-user" for="login-name"></label>
+			</div>
+
+			<div class="form-group">
+				<input type="password" class="form-control login-field" value="" placeholder="Password" id="login-pass" ng-model="form.password">
+				<label class="login-field-icon fui-lock" for="login-pass"></label>
+			</div>
+
+			<div class="form-group" ng-if="form.msg" style="color: black; font-size: 12px; text-align: center;">
+				<p>{{form.msg}}</p>
+			</div>
+
+			<a class="btn btn-primary btn-lg btn-block" ng-click="submit(form)" ng-disabled="disabled">{{msg}}</a>
+			<a class="login-link" href="#">Lost your password?</a>
+		</div>
+	</div>
+</div>

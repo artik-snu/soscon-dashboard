@@ -32,6 +32,9 @@ angular.module('myApp.rvc', ['ngRoute'])
         if ($('[data-toggle="select"]').length) {
             $('[data-toggle="select"]').select2();
         }
+        if ($('[data-toggle="switch"]').length) {
+            //$('[data-toggle="switch"]').bootstrapSwitch();
+        }
         $timeout(function() {
             $scope.init();
             $scope.loadChart();
@@ -93,6 +96,17 @@ angular.module('myApp.rvc', ['ngRoute'])
 
     $scope.showVideo = false;
 
+	$scope.sendLog = function(msg) {
+		$http({
+			method: 'GET',
+            url: '/api/logs?text=' + msg
+		}).then(function successCallback(response) {
+			console.log('commanded', response);
+		}, function errorCallback(response) {
+			console.log('failure', response);
+		});
+	}
+
 	$scope.tts = function(msg, lang) {
         if(lang == undefined) lang = "ko_KR";
 		$http({
@@ -105,8 +119,42 @@ angular.module('myApp.rvc', ['ngRoute'])
 		});
 	}
 
+    $scope.imgUrl = "";
+    $scope.showWarning = function(img) {
+        $scope.imgUrl = img.url;
+    }
+    $scope.clearWarning = function(img) {
+        $scope.imgUrl = "";
+    }
+
     var KEY = "log";//powerbot/test-table";
     var db = firebase.database();
+    $scope.doptions = {notify: true, detect: true};
+    var first = true;
+    db.ref("img").limitToLast(1).on('child_added', function(snapshot) {
+        if(first) {
+            first = false;
+        } else {
+            console.log("detect", snapshot.val());
+            var img = snapshot.val();
+            if($scope.doptions.notify || $scope.doptions.detect) {
+				$scope.sendLog("이상 물체가 감지되었습니다.");
+			}
+            if($scope.doptions.notify) {
+                $http({
+                    method: 'GET',
+                    url: '/api/alarm'
+                }).then(function successCallback(response) {
+                    console.log('commanded', response);
+                }, function errorCallback(response) {
+                    console.log('failure', response);
+                });
+            }
+            if($scope.doptions.detect) {
+                $scope.showWarning(img);
+            }
+        }
+    });
     db.ref(KEY).on('value', function(snapshot) {
         waitingDialog.hide();
 
