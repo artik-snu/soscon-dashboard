@@ -99,7 +99,7 @@ PowerbotMap.run = function(ix, iy, imap_value) {
                 }
             }
             if (updated) self.update_map(render);
-            else if (render) canvas.renderAll();
+            //else if (render) canvas.renderAll();
         };
 
         this.update_map = function(render) {
@@ -109,7 +109,7 @@ PowerbotMap.run = function(ix, iy, imap_value) {
                     map[i][j].setFill(num2color(map_value[i][j]/30));
                 }
             }
-            if (render) canvas.renderAll();
+            //if (render) canvas.renderAll();
         }
 
         this.update_robot = function(pos) {
@@ -176,8 +176,7 @@ PowerbotMap.run = function(ix, iy, imap_value) {
             engine.register_pos(-pos.y, -pos.x);
             engine.update_robot(pos);
             //home.bringToFront();
-            robot.bringToFront();
-            canvas.renderAll();
+            //robot.bringToFront();
             PowerbotMap.mvalue = map_value;
         });
 

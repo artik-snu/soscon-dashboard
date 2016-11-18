@@ -281,6 +281,7 @@ angular.module('myApp.rvc', ['ngRoute'])
     $scope.stopStream = function() {
         $scope.showVideo = false;
         $scope.cctv.stopStream();
+        $('.vjs-play-control').click();
         //$scope.tts("카메라 녹화를 중지합니다.");
     }
 	$scope.reservations = {};
