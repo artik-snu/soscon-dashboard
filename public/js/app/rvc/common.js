@@ -110,12 +110,3 @@ Game.tick = function (elapsed) {
 Game.init = function () {};
 Game.update = function (delta) {};
 Game.render = function () {};
-
-//
-// start up function
-//
-
-window.onload = function () {
-    var context = document.getElementById('demo').getContext('2d');
-    Game.run(context);
-};
