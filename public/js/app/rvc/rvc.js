@@ -84,6 +84,7 @@ angular.module('myApp.rvc', ['ngRoute'])
 			//var dig = Math.degrees($scope.status.pose.q);
 			var dig = Math.degrees($scope.status.lin_ang_vel.ang);
 			var compassDisc = document.getElementById("arrowImg");
+			if(compassDisc == null || compassDisc == undefined) return;
 			compassDisc.style.webkitTransform = "rotate("+ dig +"deg)";
 			compassDisc.style.MozTransform = "rotate("+ dig +"deg)";
 			compassDisc.style.transform = "rotate("+ dig +"deg)";
