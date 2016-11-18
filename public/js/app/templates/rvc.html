@@ -159,14 +159,14 @@
 
 		<div class="btn-toolbar">
 			<div class="btn-group btn-group-justified">
-				<a class="btn btn-primary" ng-click="startStream()" ng-if="!showVideo"><span class="fui-video"> Show Video</span></a>
-				<a class="btn btn-primary" ng-click="stopStream()" ng-if="showVideo"><span class="fui-pause"> Stop Video</span></a>
+				<a class="btn btn-primary" ng-click="startStream()" ng-show="!showVideo"><span class="fui-video"> Show Video</span></a>
+				<a class="btn btn-primary" ng-click="stopStream()" ng-show="showVideo"><span class="fui-pause"> Stop Video</span></a>
 
 			</div>
 		</div>
 
         <div>
-            <h3 class="demo-panel-title">Detection</h3>
+            <h4 class="demo-panel-title">Detection</h4>
             <div class="share mrl" style="margin: 0; margin-left: -5px;">
                 <ul>
                     <li>
@@ -181,11 +181,9 @@
             </div> <!-- /share -->
         </div>
 
-		<div ng-show="showVideo">
-			<h4>Camera</h4>
-			<video class="video-js" data-setup="{}" id="stream">
-			</video>
-		</div>
+        <h4>Camera</h4>
+        <video class="video-js" data-setup="{}" id="stream">
+        </video>
 
 		<!--
 		<video class="video-js" preload="auto" poster="img/inner.jpg" data-setup="{}" id="stream2">

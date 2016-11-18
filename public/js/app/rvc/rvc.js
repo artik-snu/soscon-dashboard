@@ -21,7 +21,7 @@ angular.module('myApp.rvc', ['ngRoute'])
         waitingDialog.show('Connecting...');
         $timeout(function() {
             $scope.connectCCTV();
-        }, 1000);
+        }, 100);
     });
 	$scope.init = function() {
 		//var context = document.getElementById('demo').getContext('2d');
@@ -135,6 +135,7 @@ angular.module('myApp.rvc', ['ngRoute'])
         if(first) {
             first = false;
         } else {
+            if($scope.status.mode != 5) return;
             console.log("detect", snapshot.val());
             var img = snapshot.val();
             if($scope.doptions.notify || $scope.doptions.detect) {
@@ -275,12 +276,12 @@ angular.module('myApp.rvc', ['ngRoute'])
         $scope.showVideo = true;
         $scope.cctv.startStream();
         $('.vjs-play-control').click();
-        $scope.tts("카메라 녹화를 시작합니다.");
+        //$scope.tts("카메라 시작합니다.");
     }
     $scope.stopStream = function() {
         $scope.showVideo = false;
         $scope.cctv.stopStream();
-        $scope.tts("카메라 녹화를 중지합니다.");
+        //$scope.tts("카메라 녹화를 중지합니다.");
     }
 	$scope.reservations = {};
 

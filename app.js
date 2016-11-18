@@ -25,6 +25,7 @@ var moment = require('moment');
 var db = require('./routes/db');
 var logRef = db.ref("log");
 var logsRef = db.ref("logs");
+var resRef = db.ref("reservations");
 bot.on('data', function(data) {
     data = data.replace(/\0/g, '');
     var ds = data.split("///");
@@ -47,6 +48,49 @@ bot.on('data', function(data) {
         }
     }
 });
+
+setInterval(function() {
+    var d = new Date();
+    var h = d.getHours();
+    var m = d.getMinutes();
+
+    resRef.once('value', function(snapshot) {
+        var list = snapshot.val();
+        var keys = Object.keys(list);
+        console.log(list);
+        for(var i = 0; i < keys.length; i++) {
+            var l = list[keys[i]];
+            var dd = new Date(l.time);
+
+            if(dd.getHours() == h && dd.getMinutes() == m + 1) {
+                var type = 0;
+                if(l.type == "daily") type = 1;
+
+                var data = {
+                    reserve: {
+                        on: 1,
+                        type: type,
+                        hour: dd.getHours(),
+                        minute: dd.getMinutes()
+                    }
+                }
+
+                powerbot.write(bot, data);
+
+                setTimeout(function() {
+                    var data = {
+                        tts: {
+                            text: "잠시 후에 청소가 시작됩니다.",
+                            lang: "ko_KR"
+                        }
+                    }
+
+                    powerbot.write(bot, data);
+                }, 10000);
+            }
+        }
+    });
+}, 60000);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

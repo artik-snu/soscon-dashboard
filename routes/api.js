@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
+var FCM = require('fcm-push');
+var serverKey = 'AIzaSyDA1sLjFirkVcWTJTsbXsNIYVN4C7hj_YU';
+var fcm = new FCM(serverKey);
+var dtoken = "fFFbTjMQtHI:APA91bFxwp4iPuNUSbq60cdYgr8-j2cyis7j64d7_i_pjmAiMBKnRUJbffV1-vHgGMlJDCrPjwRcnS2ZeSPCyj5G4B8m-i-MZrcNLT_JVhiN8sMfORdtSoDK_8a5gW_Low_lstAdnD6e";
 
 // firebase
 var db = require('./db');
@@ -102,20 +106,6 @@ router.post('/reservation', function(req, res, next) {
 	}}
     powerbot.write(bot, time);
 
-	var rsv = req.body.reservation;
-	var type = 0;
-	if(rsv.type == "daily") type = 1;
-	var t = new Date(rsv.time);
-	var data = {reserve: {
-		on: 1,
-		type: type,
-		hour: t.getHours(),
-		minute: t.getMinutes(),
-	}}
-	setTimeout(function() {
-		powerbot.write(bot, data);
-	}, 1000);
-
     res.json({succes: true});
 });
 
@@ -124,7 +114,6 @@ router.delete('/reservation/:id', function(req, res, next) {
 	resRef.child(id).remove();
     res.json({succes: true});
 });
-
 
 var multer = require('multer');
 var Q = require("q");
@@ -223,6 +212,27 @@ router.get('/alarm', function(req, res, next) {
 	var data = {alarm_play: ""};
     var bot = powerbot.get();
     powerbot.write(bot, data);
+
+    var message = {
+        to: dtoken, // required fill with device token or topics
+        collapse_key: "" + parseInt(Math.random() * 10000), 
+        data: {
+        },
+        notification: {
+            sound: "default",
+            title: 'SOSCON',
+            body: '침입자가 감지되었습니다. 청소기의 카메라로 확인하세요.'
+        }
+    };
+
+    //callback style
+    fcm.send(message, function(err, response){
+        if (err) {
+            console.log("Something has gone wrong!", response);
+        } else {
+            console.log("Successfully sent with response: ", response);
+        }
+    });
 
     res.json({});
 });
