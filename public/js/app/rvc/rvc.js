@@ -17,9 +17,18 @@ angular.module('myApp.rvc', ['ngRoute'])
 }])
 
 .controller('RVCCtrl', function($scope, $firebaseObject, $firebaseArray, $http, Upload, $uibModal, $log, $document, MyFirebase, $rootScope, $timeout, $interval) {
+    function loadScript(src,callback){
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        if(callback) script.onload=callback;
+        document.getElementsByTagName("head")[0].appendChild(script);
+        script.src = src;
+    }
+
     $scope.$on('$viewContentLoaded', function() {
         waitingDialog.show('Connecting...');
         $timeout(function() {
+            loadScript("js/video.js");
             $scope.connectCCTV();
         }, 100);
     });
