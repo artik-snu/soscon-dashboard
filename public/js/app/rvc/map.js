@@ -94,7 +94,7 @@ PowerbotMap.run = function(ix, iy, imap_value) {
                             max = map_value[i][j];
                             updated = true;
                         }
-                        map[i][j].setFill(num2color(map_value[i][j]/30));
+                        map[i][j].setFill(num2color(map_value[i][j]/20));
                     }
                 }
             }
@@ -106,7 +106,7 @@ PowerbotMap.run = function(ix, iy, imap_value) {
             if (render === undefined) render = true;
             for (var i = 0; i < 45; i++) {
                 for (var j = 0; j < 45; j++) {
-                    map[i][j].setFill(num2color(map_value[i][j]/30));
+                    map[i][j].setFill(num2color(map_value[i][j]/20));
                 }
             }
             //if (render) canvas.renderAll();
@@ -160,7 +160,7 @@ PowerbotMap.run = function(ix, iy, imap_value) {
         }
         for(var i = 0; i < 45; i++) {
             for(var j = 0; j < 45; j++) {
-                map[i][j].setFill(num2color(map_value[i][j]/30));
+                map[i][j].setFill(num2color(map_value[i][j]/20));
             }
         }
 
